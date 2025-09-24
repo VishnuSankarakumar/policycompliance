@@ -1,0 +1,16 @@
+{
+  "name": "policy-intel",
+  "private": true,
+  "packageManager": "pnpm@10.16.1",
+  "engines": { "node": ">=20.11.0" },
+  "scripts": {
+    "dev": "pnpm -r --parallel dev",
+    "build": "pnpm -r build",
+    "start": "pnpm --filter server start",
+    "typecheck": "pnpm -r typecheck",
+    "check:env": "node tools/check-env.mjs"
+  },
+  "devDependencies": {
+    "typescript": "5.5.4"
+  }
+}
