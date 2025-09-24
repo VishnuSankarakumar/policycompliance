@@ -1,0 +1,17 @@
+{
+  "canonical": {
+    "jurisdiction": ["jurisdiction", "region", "territory", "country"],
+    "dsrResponseDays": ["dsrResponseDays", "responsePeriod", "requestResponseTime", "consumerResponseDays", "accessRequestDays"],
+    "retentionDays": ["retentionDays", "retentionPeriod", "storageDuration", "dataRetention", "keepForDays"],
+    "userAge": ["userAge", "age", "minorAge", "ageOfUser", "childAge"],
+    "parentalConsent": ["parentalConsent", "guardianConsent"],
+    "transferToUS": ["transferToUS", "xBorderUS", "crossBorderUS", "dataTransferUS"],
+    "dataType": ["dataType", "recordType", "category", "datasetType"],
+    "purpose": ["purpose", "useCase", "processingPurpose"]
+  },
+  "units": {
+    "days": ["day", "days"],
+    "months": ["month", "months"],
+    "years": ["year", "years"]
+  }
+}
