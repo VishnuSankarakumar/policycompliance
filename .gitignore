@@ -1,9 +1,11 @@
 node_modules
 .pnpm-store
 .env
-.env.local
+.env.example
 client/.env.local
+client/.env.example
 server/.env
+server/.env.example
 dist
 client/dist
 server/dist
