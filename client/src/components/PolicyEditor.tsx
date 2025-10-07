@@ -1,14 +1,63 @@
-import { useState } from 'react';
-import { post } from '../lib/api';
+import { useEffect, useRef, useState } from "react";
+import { getPolicy, savePolicy } from "../lib/api";
 
-export default function PolicyEditor({ projectId }: { projectId: string }) {
-  const [text, setText] = useState('Paste policy text here...');
-  const save = async () => { await post('/api/policy', { projectId, rawText: text }); alert('Policy saved'); };
+type Props = { projectId: string };
+
+export default function PolicyEditor({ projectId }: Props) {
+  const [text, setText] = useState("");
+  const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const taRef = useRef<HTMLTextAreaElement | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const existing = await getPolicy(projectId); // returns {} if route missing
+        if (mounted && existing?.rawText) setText(existing.rawText);
+      } catch { /* ignore */ }
+    })();
+    return () => { mounted = false; };
+  }, [projectId]);
+
+  useEffect(() => {
+    const el = taRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = Math.min(el.scrollHeight + 6, 1200) + "px";
+  }, [text]);
+
+  async function onSave() {
+    setStatus("saving");
+    try {
+      await savePolicy(projectId, text);
+      setStatus("saved");
+      setTimeout(() => setStatus("idle"), 1600);
+    } catch {
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 2200);
+    }
+  }
+
   return (
-    <section className="space-y-2">
-      <h3 className="text-lg font-semibold">Policy</h3>
-      <textarea className="w-full h-40 border p-2" value={text} onChange={e=>setText(e.target.value)} />
-      <div className="flex gap-2"><button className="px-3 py-2 bg-black text-white rounded" onClick={save}>Save Policy</button></div>
-    </section>
+    <div className="stack">
+      <textarea
+        ref={taRef}
+        className="textarea"
+        placeholder="Paste the full policy text here…"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+      />
+      <div className="spread">
+        <div className="muted">
+          {text.length.toLocaleString()} chars • {text.split(/\s+/).filter(Boolean).length.toLocaleString()} words
+        </div>
+        <div className="row">
+          {status === "saving" && <span className="badge">Saving…</span>}
+          {status === "saved"  && <span className="badge ok">Saved</span>}
+          {status === "error"  && <span className="badge danger">Save failed</span>}
+          <button className="btn primary" onClick={onSave}>Save policy</button>
+        </div>
+      </div>
+    </div>
   );
 }
