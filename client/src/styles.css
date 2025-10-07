@@ -1,0 +1,119 @@
+/* === Design Tokens ======================================================= */
+:root {
+  --bg: #0b0c10;
+  --panel: #111318;
+  --elev: #151922;
+  --stroke: #242a36;
+  --text: #e7ecf3;
+  --muted: #9aa6b2;
+  --brand: #7c5cff;
+  --brand-700: #6c4df2;
+  --ok: #3ccf91;
+  --warn: #ffcc66;
+  --danger: #ff6b6b;
+  --chip: #1c2230;
+  --focus: #8fb5ff;
+  --shadow: 0 10px 30px rgba(0,0,0,.25);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f8fb;
+    --panel: #ffffff;
+    --elev: #ffffff;
+    --stroke: #e7ebf3;
+    --text: #0c111d;
+    --muted: #606b80;
+    --brand: #6047ff;
+    --brand-700: #533be8;
+    --ok: #0f8f53;
+    --warn: #b97a00;
+    --danger: #cc3a3a;
+    --chip: #eef1f8;
+    --shadow: 0 8px 28px rgba(16,24,40,.08);
+  }
+}
+
+/* === Base ================================================================ */
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Utilities */
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+.stack { display: grid; gap: 16px; }
+.grid-2 { display: grid; gap: 16px; grid-template-columns: 1.2fr 1fr; }
+@media (max-width: 1024px) { .grid-2 { grid-template-columns: 1fr; } }
+
+/* Topbar */
+.topbar {
+  position: sticky;
+  top: 0; z-index: 50;
+  backdrop-filter: saturate(140%) blur(6px);
+  background: color-mix(in oklab, var(--bg) 86%, transparent);
+  border-bottom: 1px solid var(--stroke);
+}
+.topbar-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; }
+.brand {
+  font-weight: 700; letter-spacing: .2px; display: flex; gap: 10px; align-items: center;
+}
+.brand .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--brand); box-shadow: 0 0 0 4px color-mix(in oklab, var(--brand) 25%, transparent); }
+
+/* Cards / Panels */
+.card {
+  background: var(--panel);
+  border: 1px solid var(--stroke);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+}
+.card.pad { padding: 18px; }
+.card-title { font-weight: 600; font-size: 14px; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .4px; }
+
+/* Buttons */
+.btn {
+  --bgc: var(--elev);
+  --fg: var(--text);
+  --b: var(--stroke);
+  display: inline-flex; align-items: center; gap: 10px;
+  height: 40px; padding: 0 14px;
+  border-radius: 10px;
+  border: 1px solid var(--b);
+  background: var(--bgc);
+  color: var(--fg);
+  cursor: pointer;
+}
+.btn:hover { filter: brightness(1.06); }
+.btn:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.btn.primary { --bgc: var(--brand); --b: color-mix(in oklab, var(--brand) 65%, black); }
+.btn.ghost   { --bgc: transparent; }
+.btn.success { --bgc: var(--ok); color: #04110b; border-color: color-mix(in oklab, var(--ok) 55%, black); }
+
+/* Inputs */
+.textarea {
+  width: 100%;
+  min-height: 320px;
+  resize: vertical;
+  padding: 14px 16px;
+  font: 500 14px/1.5 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  color: var(--text);
+  background: var(--elev);
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+}
+.textarea::placeholder { color: var(--muted); }
+
+/* Meta */
+.muted { color: var(--muted); }
+.row { display: flex; align-items: center; gap: 10px; }
+.spread { display: flex; align-items: center; justify-content: space-between; }
+.badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; background: var(--chip); border: 1px solid var(--stroke); border-radius: 999px; color: var(--muted); font-weight: 600; font-size: 12px; }
+.kpi { display: inline-flex; gap: 6px; align-items: baseline; }
+.kpi b { font-size: 18px; }
+.ok { color: var(--ok); } .warn { color: var(--warn); } .danger { color: var(--danger); }
+.hr { height: 1px; background: var(--stroke); margin: 8px 0 12px; border: 0; }
